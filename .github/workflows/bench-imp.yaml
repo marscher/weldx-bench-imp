@@ -1,4 +1,4 @@
-name: Python Example with pytest
+name: Benchmark weldx import timing
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   benchmark:
-    name: Run pytest-benchmark benchmark example
+    name: Run pytest-benchmark on weldx import timing
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,10 +15,9 @@ jobs:
         id: cache-pip
         with:
           path: ~/.cache/pip
-          key: pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          key: ${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
       - name: install python packages
+        if: steps.cache-pip.outputs.cache-hit != 'true'
         run: |
           pip install wheel
           pip install -r requirements.txt
