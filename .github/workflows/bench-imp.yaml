@@ -11,10 +11,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
+      - uses: actions/cache@v2
+        if: startsWith(runner.os, 'Linux')
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: install python packages
+        run: |
+          pip install wheel
+          pip install -r requirements.txt
+ 
       - name: Run benchmark
         run: |
-          pip install -r requirements.txt
-          pytest bench.py --benchmark-json output.json
+         pytest bench.py --benchmark-json output.json
       - name: Store benchmark result
         uses: rhysd/github-action-benchmark@v1
         with:
