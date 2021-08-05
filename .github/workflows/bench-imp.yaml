@@ -15,10 +15,9 @@ jobs:
         id: cache-pip
         with:
           path: ~/.cache/pip
-          key: pip-${{ hashFiles('requirements.txt') }}
+          key: pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
-            pip-
-
+            ${{ runner.os }}-pip-
       - name: install python packages
         run: |
           pip install wheel
@@ -26,7 +25,7 @@ jobs:
  
       - name: Run benchmark
         run: |
-         pytest bench.py --benchmark-json output.json
+         pytest bench.py --benchmark-json output.json || true
       - name: Store benchmark result
         uses: rhysd/github-action-benchmark@v1
         with:
