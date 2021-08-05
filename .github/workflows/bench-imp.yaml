@@ -12,12 +12,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v1
       - uses: actions/cache@v2
-        if: startsWith(runner.os, 'Linux')
+        id: cache-pip
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          key: pip-${{ hashFiles('requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-pip-
+            pip-
 
       - name: install python packages
         run: |
