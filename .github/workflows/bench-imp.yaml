@@ -17,7 +17,6 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-${{ hashFiles('**/requirements.txt') }}
       - name: install python packages
-        if: steps.cache-pip.outputs.cache-hit != 'true'
         run: |
           pip install wheel
           pip install -r requirements.txt
