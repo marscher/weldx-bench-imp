@@ -26,6 +26,7 @@ jobs:
         run: |
          pytest bench.py --benchmark-json output.json || true
       - name: Store benchmark result
+        if: 0 == 1
         uses: rhysd/github-action-benchmark@v1
         with:
           name: Python Benchmark with pytest-benchmark
